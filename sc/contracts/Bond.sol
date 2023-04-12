@@ -15,9 +15,9 @@ contract Bond is IBond, Ownable {
     uint256 public totalBonds;
     address escrow;
 
-    constructor(address _escrow) payable {
+    constructor() payable {
         totalBonds = 0;
-        escrow = _escrow;
+        escrow = msg.sender;
     }
 
     function issueBond(
