@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "hardhat test",
-    "compile": "hardhat compile"
+    "compile": "hardhat compile",
+    "create-escrow": "hardhat run scripts/create-escrow.ts"
   },
   "author": "",
   "license": "ISC",
@@ -32,6 +33,10 @@
     "typescript": ">=4.5.0"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^4.8.2"
+    "@openzeppelin/contracts": "^4.8.2",
+    "@safe-global/api-kit": "^1.0.0",
+    "@safe-global/protocol-kit": "^0.1.0",
+    "@safe-global/safe-core-sdk-types": "^1.10.0",
+    "dotenv": "^16.0.3"
   }
 }

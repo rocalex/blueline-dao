@@ -28,4 +28,8 @@ interface IBond {
         uint256 bondId,
         address investor
     ) external view returns (bool);
+
+    function setEscrow(address _escrow) external payable;
+
+    function getEscrow() external view returns (address);
 }

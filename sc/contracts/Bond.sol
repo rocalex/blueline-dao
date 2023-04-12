@@ -13,9 +13,11 @@ contract Bond is IBond, Ownable {
     mapping(uint256 => BondStruct) bonds;
     mapping(uint256 => address) investors;
     uint256 public totalBonds;
+    address escrow;
 
-    constructor() payable {
+    constructor(address _escrow) payable {
         totalBonds = 0;
+        escrow = _escrow;
     }
 
     function issueBond(
@@ -59,5 +61,13 @@ contract Bond is IBond, Ownable {
         address investor
     ) external view returns (bool) {
         return investors[bondId] == investor;
+    }
+
+    function setEscrow(address _escrow) external payable onlyOwner {
+        escrow = _escrow;
+    }
+
+    function getEscrow() external view returns (address) {
+        return escrow;
     }
 }

@@ -9,7 +9,6 @@ import "./interfaces/IBond.sol";
 // Create a system for users to invest in the listed bonds and transfer funds to the escrow account
 contract InvestBond {
     address bondAddress;
-    address public escrow;
     address authAddress;
 
     event BondPurchased(uint256 bondId, address buyer);
@@ -21,11 +20,9 @@ contract InvestBond {
     }
 
     constructor(
-        address _escrow,
         address _bondAddress,
         address _authAddress
     ) payable {
-        escrow = _escrow;
         bondAddress = _bondAddress;
         authAddress = _authAddress;
     }
@@ -37,6 +34,7 @@ contract InvestBond {
         (uint256 faceValue, , , ) = bond.getBondDetails(bondId);
 
         require(msg.value == faceValue, "Bond: Insufficient fund");
+        address escrow = bond.getEscrow();
         (bool sent, ) = escrow.call{value: msg.value}("");
         require(sent, "Failed to send Ether to escrow");
         bond.setInvestor(bondId, msg.sender);

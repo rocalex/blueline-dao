@@ -12,7 +12,7 @@ describe("Bond", function () {
     const [owner, escrow, otherAccount, investor] = await ethers.getSigners();
 
     const Bond = await ethers.getContractFactory("Bond");
-    const bond = await Bond.deploy();
+    const bond = await Bond.deploy(escrow.address);
     await bond.deployed();
 
     const UserAuth = await ethers.getContractFactory("UserAuth");
@@ -21,7 +21,6 @@ describe("Bond", function () {
 
     const InvestBond = await ethers.getContractFactory("InvestBond");
     const investBond = await InvestBond.deploy(
-      escrow.address,
       bond.address,
       userAuth.address
     );
