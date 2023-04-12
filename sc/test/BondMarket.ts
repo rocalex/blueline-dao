@@ -1,15 +1,15 @@
 import { time, loadFixture } from "@nomicfoundation/hardhat-network-helpers";
-import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
 import { expect } from "chai";
 import { ethers } from "hardhat";
 
-describe("Bond", function () {
+describe("BondMarket", function () {
   // We define a fixture to reuse the same setup in every test.
   // We use loadFixture to run this setup once, snapshot that state,
   // and reset Hardhat Network to that snapshot in every test.
   async function deployBondFixture() {
     // Contracts are deployed using the first signer/account by default
-    const [owner, escrow, otherAccount, investor] = await ethers.getSigners();
+    const [owner, escrow, otherAccount, investor, otherInvestor] =
+      await ethers.getSigners();
 
     const Bond = await ethers.getContractFactory("Bond");
     const bond = await Bond.deploy();
@@ -27,7 +27,20 @@ describe("Bond", function () {
     );
     await investBond.deployed();
 
-    return { bond, owner, otherAccount, userAuth, investBond, investor };
+    const BondMarket = await ethers.getContractFactory("BondMarket");
+    const bondMarket = await BondMarket.deploy(bond.address, userAuth.address);
+    await bondMarket.deployed();
+
+    return {
+      bond,
+      owner,
+      otherAccount,
+      userAuth,
+      investBond,
+      investor,
+      bondMarket,
+      otherInvestor,
+    };
   }
 
   it("deploy", async () => {
@@ -37,14 +50,22 @@ describe("Bond", function () {
     expect(await bond.totalBonds()).to.equal("0");
   });
 
-  it("issue bond", async () => {
+  it("list and buy bond", async () => {
     const faceValue = ethers.utils.parseEther("0.1");
     const couponRate = ethers.BigNumber.from("0");
     const fiveYearsFromNow = new Date();
     fiveYearsFromNow.setFullYear(fiveYearsFromNow.getFullYear() + 5);
     const maturityDate = Math.floor(fiveYearsFromNow.getTime() / 1000);
 
-    const { bond, owner } = await loadFixture(deployBondFixture);
+    const {
+      bond,
+      owner,
+      userAuth,
+      investor,
+      investBond,
+      otherInvestor,
+      bondMarket,
+    } = await loadFixture(deployBondFixture);
     await expect(bond.issueBond(faceValue, couponRate, maturityDate))
       .to.emit(bond, "BondIssued")
       .withArgs("0", owner.address);
@@ -54,42 +75,31 @@ describe("Bond", function () {
 
     expect(bondDetails[0]).to.equal(faceValue);
     expect(bondDetails[1]).to.equal(couponRate);
-  });
-
-  it("issue bond from other account", async () => {
-    const faceValue = ethers.utils.parseEther("0.1");
-    const fiveYearsFromNow = new Date();
-    fiveYearsFromNow.setFullYear(fiveYearsFromNow.getFullYear() + 5);
-    const maturityDate = Math.floor(fiveYearsFromNow.getTime() / 1000);
-    const couponRate = ethers.BigNumber.from("0");
-
-    const { bond, otherAccount } = await loadFixture(deployBondFixture);
-    await expect(
-      bond.connect(otherAccount).issueBond(faceValue, couponRate, maturityDate)
-    ).to.be.revertedWith("Ownable: caller is not the owner");
-  });
-
-  it("invest bond", async () => {
-    const { bond, investBond, investor, userAuth } = await loadFixture(
-      deployBondFixture
-    );
-    const faceValue = ethers.utils.parseEther("0.1");
-    const fiveYearsFromNow = new Date();
-    fiveYearsFromNow.setFullYear(fiveYearsFromNow.getFullYear() + 5);
-    const maturityDate = Math.floor(fiveYearsFromNow.getTime() / 1000);
-    const couponRate = ethers.BigNumber.from("0");
-
-    await bond.issueBond(faceValue, couponRate, maturityDate);
 
     await userAuth
       .connect(investor)
       .registerUser(investor.address, "investor", "password");
-
     await userAuth.connect(investor).loginUser(investor.address, "password");
 
     const bondId = (await bond.totalBonds()).sub(1);
     await investBond.connect(investor).investBond(bondId, { value: faceValue });
 
-    expect(await bond.checkIfInvestor(bondId, investor.address)).to.equal(true);
+    await userAuth
+      .connect(otherInvestor)
+      .registerUser(otherInvestor.address, "investor2", "password");
+    await userAuth
+      .connect(otherInvestor)
+      .loginUser(otherInvestor.address, "password");
+
+    const price = faceValue.add(ethers.utils.parseEther("0.01"));
+    await expect(bondMarket.connect(investor).listBond(bondId, price))
+      .to.emit(bondMarket, "BondListed")
+      .withArgs(bondId, investor.address, price);
+
+    await expect(
+      bondMarket.connect(otherInvestor).buyBond(bondId, { value: price })
+    )
+      .to.emit(bondMarket, "BondSold")
+      .withArgs(bondId, otherInvestor.address, price);
   });
 });
