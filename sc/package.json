@@ -6,7 +6,9 @@
   "scripts": {
     "test": "hardhat test",
     "compile": "hardhat compile",
-    "create-escrow": "hardhat run scripts/create-escrow.ts"
+    "create-escrow": "hardhat run scripts/create-escrow.ts",
+    "deploy-auth": "hardhat run scripts/deploy-auth.ts",
+    "deploy-bond": "hardhat run scripts/deploy-bond.ts"
   },
   "author": "",
   "license": "ISC",
@@ -17,7 +19,7 @@
     "@nomicfoundation/hardhat-network-helpers": "^1.0.0",
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
     "@nomiclabs/hardhat-ethers": "^2.0.0",
-    "@nomiclabs/hardhat-etherscan": "^3.0.0",
+    "@nomiclabs/hardhat-etherscan": "^3.1.7",
     "@typechain/ethers-v5": "^10.1.0",
     "@typechain/hardhat": "^6.1.2",
     "@types/chai": "^4.2.0",
@@ -34,8 +36,8 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.8.2",
-    "@safe-global/api-kit": "^1.0.0",
-    "@safe-global/protocol-kit": "^0.1.0",
+    "@safe-global/api-kit": "^1.0.1",
+    "@safe-global/protocol-kit": "^0.1.1",
     "@safe-global/safe-core-sdk-types": "^1.10.0",
     "dotenv": "^16.0.3"
   }

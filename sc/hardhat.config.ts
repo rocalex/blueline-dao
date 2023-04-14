@@ -1,5 +1,6 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
+import "@nomiclabs/hardhat-etherscan";
 import dotenv from "dotenv"
 
 dotenv.config()
@@ -26,7 +27,8 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: {
-      polygon: process.env.POLYGONSCAN_API_KEY!
+      polygon: process.env.POLYGONSCAN_API_KEY!,
+      polygonMumbai: process.env.POLYGONSCAN_API_KEY!
     }
   }
 };

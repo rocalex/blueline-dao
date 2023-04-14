@@ -669,7 +669,7 @@
   resolved "https://registry.yarnpkg.com/@nomiclabs/hardhat-ethers/-/hardhat-ethers-2.2.2.tgz#812d48929c3bf8fe840ec29eab4b613693467679"
   integrity sha512-NLDlDFL2us07C0jB/9wzvR0kuLivChJWCXTKcj3yqjZqMoYp7g7wwS157F70VHx/+9gHIBGzak5pKDwG8gEefA==
 
-"@nomiclabs/hardhat-etherscan@^3.0.0":
+"@nomiclabs/hardhat-etherscan@^3.1.7":
   version "3.1.7"
   resolved "https://registry.yarnpkg.com/@nomiclabs/hardhat-etherscan/-/hardhat-etherscan-3.1.7.tgz#72e3d5bd5d0ceb695e097a7f6f5ff6fcbf062b9a"
   integrity sha512-tZ3TvSgpvsQ6B6OGmo1/Au6u8BrAkvs1mIC/eURA3xgIfznUZBhmpne8hv7BXUzw9xNL3fXdpOYgOQlVMTcoHQ==
@@ -690,19 +690,19 @@
   resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.8.2.tgz#d815ade0027b50beb9bcca67143c6bcc3e3923d6"
   integrity sha512-kEUOgPQszC0fSYWpbh2kT94ltOJwj1qfT2DWo+zVttmGmf97JZ99LspePNaeeaLhCImaHVeBbjaQFZQn7+Zc5g==
 
-"@safe-global/api-kit@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@safe-global/api-kit/-/api-kit-1.0.0.tgz#f4e5e3d3cc3e4f99108c1dabec8b3a03c510e69d"
-  integrity sha512-dJF2vpUNCWkBzjbaSWV4gIgc6LNxEmg4of5M9+Uf6eQujKxLRL5SC2am7Q6FG7uPzmjHUGwboZAU3b/Un+NNGw==
+"@safe-global/api-kit@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@safe-global/api-kit/-/api-kit-1.0.1.tgz#7176024cfeacccbf5a383e49f5b37d25cca97efc"
+  integrity sha512-pEytEt4TdiCYAIvdgRRvgUHAPIPh6IDDmsib8qCbika4eMJWgemHb6NsMfltP3SMEdgWSNWFKHiE5GRoZ5sVLw==
   dependencies:
     "@ethersproject/abstract-signer" "^5.7.0"
-    "@safe-global/safe-core-sdk-types" "^1.10.0"
+    "@safe-global/safe-core-sdk-types" "^1.10.1"
     node-fetch "^2.6.6"
 
-"@safe-global/protocol-kit@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@safe-global/protocol-kit/-/protocol-kit-0.1.0.tgz#9c3c3ee69e88782d70ca64247d111938510f2061"
-  integrity sha512-c9oG4WWacWgG7gX4fByo3lPQbk5ljJnuTBCOuBU94S3LW+gI79CaGphY+8ZcJsBE8MPHNgEDO0fRwpy/Fzuyuw==
+"@safe-global/protocol-kit@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@safe-global/protocol-kit/-/protocol-kit-0.1.1.tgz#f971975b250dd945113037ecdd710358979be24d"
+  integrity sha512-lRTeO/+WyfIacTYclaGRLPsCnnZKgzCtgfZuVMwhM6kX/8FET+rDiM26FVucVUFBVwCml8ogvJlrqKB8bCkAgQ==
   dependencies:
     "@ethersproject/bignumber" "^5.7.0"
     "@ethersproject/solidity" "^5.7.0"
@@ -717,6 +717,17 @@
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/@safe-global/safe-core-sdk-types/-/safe-core-sdk-types-1.10.0.tgz#77e5561850391cc80cf133635899de2d62261d7d"
   integrity sha512-ZHcxfa8Zw3dBEbMB7HoQHE0mVcrdNBlpnb+oTaLu+f2xvsmx8kPFeoi3dEbAXiyebaXapLwQC2PVMw9LSzRusw==
+  dependencies:
+    "@ethersproject/bignumber" "^5.7.0"
+    "@ethersproject/contracts" "^5.7.0"
+    "@safe-global/safe-deployments" "^1.20.2"
+    web3-core "^1.8.1"
+    web3-utils "^1.8.1"
+
+"@safe-global/safe-core-sdk-types@^1.10.1":
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/@safe-global/safe-core-sdk-types/-/safe-core-sdk-types-1.10.1.tgz#94331b982671d2f2b8cc23114c58baf63d460c81"
+  integrity sha512-BKvuYTLOlY16Rq6qCXglmnL6KxInDuXMFqZMaCzwDKiEh+uoHu3xCumG5tVtWOkCgBF4XEZXMqwZUiLcon7IsA==
   dependencies:
     "@ethersproject/bignumber" "^5.7.0"
     "@ethersproject/contracts" "^5.7.0"
@@ -2472,7 +2483,7 @@ ethers@^4.0.40:
     uuid "2.0.1"
     xmlhttprequest "1.8.0"
 
-ethers@^5.7.2:
+ethers@^5.4.7:
   version "5.7.2"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.7.2.tgz#3a7deeabbb8c030d4126b24f84e525466145872e"
   integrity sha512-wswUsmWo1aOK8rR7DIKiWSw9DbLWe6x98Jrn8wcTflTVvaXhAMaB5zGAXy0GYQEQp9iO1iSHWVyARQm11zUtyg==

@@ -31,19 +31,18 @@ contract UserAuth is IUserAuth {
     }
 
     // user login function
-    function loginUser(
-        address _address,
-        string memory _password
-    ) public returns (bool) {
-        if (
+    function loginUser(address _address, string memory _password) public {
+        require(
+            users[_address].addr == msg.sender,
+            "Auth: user didn't register"
+        );
+        require(
             keccak256(abi.encodePacked(users[_address].password)) ==
-            keccak256(abi.encodePacked(_password))
-        ) {
-            users[_address].isUserLoggedIn = true;
-            return users[_address].isUserLoggedIn;
-        } else {
-            return false;
-        }
+                keccak256(abi.encodePacked(_password)),
+            "Auth: password didn't match"
+        );
+
+        users[_address].isUserLoggedIn = true;
     }
 
     // check the user logged In or not
