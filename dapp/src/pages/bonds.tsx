@@ -1,8 +1,50 @@
 import { BOND_ABI } from "@/abis/bond";
 import DefaultLayout from "@/components/DefaultLayout";
+import { create } from "ipfs-http-client";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAccount, useContract, useSigner } from "wagmi";
+
+const projectId = process.env.NEXT_PUBLIC_INFURA_PID;
+const projectSecret = process.env.NEXT_PUBLIC_INFURA_SECRET;
+const auth =
+  "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
+
+const client = create({
+  host: "ipfs.infura.io",
+  port: 5001,
+  protocol: "https",
+  headers: {
+    authorization: auth,
+  },
+});
+
+const BondForm = () => {
+  const [fileUrl, updateFileUrl] = useState("");
+
+  const handleChange = async (e: any) => {
+    const file = e.currentTarget.files[0];
+    try {
+      const added = await client.add(file);
+      const url = `https://infura-ipfs.io/ipfs/${added.path}`;
+      updateFileUrl(url);
+      console.log("IPFS URI: ", url);
+    } catch (error) {
+      console.log("Error uploading file: ", error);
+    }
+  };
+
+  return (
+    <form>
+      <div className="field">
+        <label className="label">Document</label>
+        <div className="control">
+          <input type="file" onChange={handleChange} />
+        </div>
+      </div>
+    </form>
+  );
+};
 
 export default function BondsPage() {
   const router = useRouter();
